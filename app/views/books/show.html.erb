@@ -1,0 +1,61 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @book %>
+<h2>Reviews</h2>
+
+<% if @book.reviews.any? %>
+  <% @book.reviews.each do |review| %>
+  <div>
+    <p><strong>Rating:</strong> <%= review.rating =%> /5 </p>
+    <p><%= review.content%></p>
+  <hr>
+  </div>
+  <% end %>
+<% else %>
+<p>No reviews yet.</p> 
+<%end%>
+
+<h3>Add a Review</h3>
+
+<%= form_with(model: [@book, Review.new]) do |form| %>
+
+  <div class="mb-4">
+  <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
+
+  <div class="mb-4">
+  <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
+
+  <div class="flex gap-1">
+    <% (1..5).each do |star| %>
+      <%= form.radio_button :rating, star,
+            id: "review_rating_#{star}",
+            class: "sr-only" %>
+
+      <%= form.label :rating, "★",
+            value: star,
+            for: "review_rating_#{star}",
+            class: "text-4xl cursor-pointer text-gray-300 hover:text-yellow-400 select-none" %>
+    <% end %>
+  </div>
+</div>
+
+  <div class="mb-4">
+    <%= form.label :content, "Review" %>
+    <%= form.text_area :content, rows: 4, class: "w-full border rounded p-2" %>
+  </div>
+
+  <div>
+    <%= form.submit "Submit Review",
+          class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+  </div>
+
+<% end %>
+
+
+
+<div>
+  <%= link_to "Edit this book", edit_book_path(@book) %> |
+  <%= link_to "Back to books", books_path %>
+
+  <%= button_to "Destroy this book", @book, method: :delete %>
+</div>
