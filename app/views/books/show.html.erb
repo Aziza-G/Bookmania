@@ -1,43 +1,57 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @book %>
+
+<% if @book.book_file.attached? %>
+    <p class="mb-2"> 📖 Download Book: 
+        <%= link_to @book.book_file.filename,
+              rails_blob_path(@book.book_file, disposition: "attachment"),
+              class: "text-blue-500 underline" %>
+    </p>
+    <% end %>
+
 <h2>Reviews</h2>
 
-<% if @book.reviews.any? %>
-  <% @book.reviews.each do |review| %>
-  <div>
-    <p><strong>Rating:</strong> <%= review.rating =%> /5 </p>
-    <p><%= review.content%></p>
-  <hr>
+<% @book.reviews.each do |review| %>
+  <div class="mb-4 p-4 border rounded">
+
+    <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+    <p><%= review.content %></p>
+
+    <%= button_to "Delete Review",
+          [@book, review],
+          method: :delete,
+          data: { turbo_confirm: "Are you sure?" },
+          class: "mt-2 bg-red-600 text-white px-3 py-1 rounded" %>
+
+    <%= link_to "Edit Review",
+          edit_book_review_path(@book, review),
+          class: "bg-yellow-500 text-white px-3 py-1 rounded mr-2" %>
+
   </div>
-  <% end %>
-<% else %>
-<p>No reviews yet.</p> 
-<%end%>
+<% end %>
 
 <h3>Add a Review</h3>
 
-<%= form_with(model: [@book, Review.new]) do |form| %>
+<%= form_with(model: [@book, Review.new], local: true) do |form| %>
+
+  <p>Note: Rating increases from left to right</p>
 
   <div class="mb-4">
-  <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
+    <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
 
-  <div class="mb-4">
-  <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
+    <div class="flex flex-row-reverse justify-end">
+      <% (1..5).each do |star| %>
+        <%= form.radio_button :rating, star,
+              id: "review_rating_#{star}",
+              class: "peer hidden" %>
 
-  <div class="flex gap-1">
-    <% (1..5).each do |star| %>
-      <%= form.radio_button :rating, star,
-            id: "review_rating_#{star}",
-            class: "sr-only" %>
-
-      <%= form.label :rating, "★",
-            value: star,
-            for: "review_rating_#{star}",
-            class: "text-4xl cursor-pointer text-gray-300 hover:text-yellow-400 select-none" %>
-    <% end %>
+        <%= form.label "review_rating_#{star}", "★",
+              class: "text-4xl cursor-pointer select-none text-gray-300 hover:text-yellow-400 peer-checked:text-yellow-400" %>
+      <% end %>
+    </div>
   </div>
-</div>
+
 
   <div class="mb-4">
     <%= form.label :content, "Review" %>
@@ -51,11 +65,9 @@
 
 <% end %>
 
-
-
-<div>
+  <div class="mt-6">
   <%= link_to "Edit this book", edit_book_path(@book) %> |
   <%= link_to "Back to books", books_path %>
 
   <%= button_to "Destroy this book", @book, method: :delete %>
-</div>
+  </div>

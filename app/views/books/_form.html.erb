@@ -16,10 +16,22 @@
     <%= form.text_field :name %>
   </div>
 
-  <div>
-    <%= form.label :genre, style: "display: block" %>
-    <%= form.text_field :genre %>
+    <div>
+      <%= form.label :author, style: "display: block"%>
+      <%= form.text_field :author%>
+    </div>
+
+  <div class="mb-4">
+    <%= form.label :genre, class: "block font-semibold mb-2" %>
+    <%= form.select :genre, 
+      Book::GENRES, 
+      { prompt: "Select a genre"}, class: "w-full border rounded-lg p-2" %>
   </div>
+
+    <div>
+      <%= form.label :cost, style: "display: block"%>
+      <%= form.number_field :cost%>
+    </div>
 
   <div>
     <%= form.label :description, style: "display: block" %>
@@ -31,6 +43,10 @@
     <%= form.textarea :notes %>
   </div>
 
+<div class="mb-4>
+  <%= form.label :book_file, "Upload Book File", class: "block font-semibold mb-2"%>
+  <%= form.file_field :book_file, class: "border p-2 rounded w-full"%>
+</div>
   <div>
     <%= form.submit %>
   </div>
