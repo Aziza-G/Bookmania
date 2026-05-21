@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  root "books#index"
+
+  get "/sign_up", to: "users#new"
+  post "/sign_up", to: "users#create"
+
+  resource :session
+  resources :passwords, param: :token
   resources :books do
     resources :reviews, only: [ :create, :edit, :update, :destroy ]
     end

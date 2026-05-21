@@ -1,26 +1,32 @@
 <%= form_with(model: book) do |form| %>
+
+<%# error message %>
   <% if book.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
+  <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+    <h2>
+      <%= pluralize(book.errors.count, "error") %> prevented this book from being saved:
+    </h2>
 
-      <ul>
-        <% book.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+    <ul>
+      <% book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+    <% end %>
+ 
+ <%# Book Title %>
   <div>
     <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, style: "border" %>
   </div>
-
+    <%# Author section %>
     <div>
       <%= form.label :author, style: "display: block"%>
-      <%= form.text_field :author%>
+      <%= form.text_field :author, style: "border" %>
     </div>
 
+    <%# Genre drop list %>
   <div class="mb-4">
     <%= form.label :genre, class: "block font-semibold mb-2" %>
     <%= form.select :genre, 
@@ -28,26 +34,74 @@
       { prompt: "Select a genre"}, class: "w-full border rounded-lg p-2" %>
   </div>
 
+    <%# Page Number section %>
+    <div classs="mb-4">
+      <%= form.label :page_count, "Number of Pages", class: "block font-semiblock mb-2"%>
+      <%= form.number_field :page_count, 
+            min: 1, 
+            step: 1, 
+            required: true, class: "border p-2 rounded w-full"%>
+    </div>
+
+
+    <div class="mb-4">
+  <%= form.label :currency, "Currency",
+        class: "block font-semibold mb-2" %>
+
+  <%= form.select :currency,
+        [
+          ["USD - US Dollar", "USD"],
+          ["JMD - Jamaican Dollar", "JMD"],
+          ["EUR - Euro", "EUR"],
+          ["GBP - British Pound", "GBP"],
+          ["CAD - Canadian Dollar", "CAD"]
+        ],
+        { prompt: "Select Currency" },
+        class: "border p-2 rounded w-full" %>
+    </div>
+
+      <%# Cost section %>
     <div>
       <%= form.label :cost, style: "display: block"%>
       <%= form.number_field :cost%>
     </div>
 
+    <%# desciption %>
   <div>
     <%= form.label :description, style: "display: block" %>
     <%= form.textarea :description %>
   </div>
 
+    <%# notes %>
   <div>
     <%= form.label :notes, style: "display: block" %>
     <%= form.textarea :notes %>
   </div>
 
-<div class="mb-4>
+      <%# language %>
+      <div class="mb-4">
+        <%= form.label :language, "Language", class: "block font-semibold mb-2" %>
+        <%= form.text_field :language, placeholder: "English", class: "border p-2 rounded w-full"%>
+      </div>
+
+    <%# publication date %>
+    <div class="mb-4">
+      <%= form.label :publication_date, "Publication Date", class: "block font-semibold mb-2" %>
+      <%= form.date_field :publication_date, class: "border p-2 rounded w-full"%>
+    </div>
+
+    <%# download link %>
+  <div class="mb-4">
   <%= form.label :book_file, "Upload Book File", class: "block font-semibold mb-2"%>
-  <%= form.file_field :book_file, class: "border p-2 rounded w-full"%>
-</div>
+  <%= form.file_field :book_file, class: "border p-2 rounded w-full" %>
+  </div>
+    <%# book cover%>
+  <div class ="mb-4">
+    <%= form.label :book_image, "Book Cover", class: "block font-semibold mb-2"%>
+    <%= form.file_field :book_image, class: "border p-2 rounded w-full" %>
+  </div>
+
   <div>
-    <%= form.submit %>
+    <%= form.submit "Add to Library"%>
   </div>
 <% end %>

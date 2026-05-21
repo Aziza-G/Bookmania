@@ -21,6 +21,7 @@ class BooksController < ApplicationController
 
   # POST /books or /books.json
   def create
+    Rails.logger.debug params.inspect
     @book = Book.new(book_params)
 
     respond_to do |format|
@@ -57,14 +58,28 @@ class BooksController < ApplicationController
     end
   end
 
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
       @book = Book.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through. note: expect was changed to require
     def book_params
-      params.expect(book: [ :name, :author, :cost, :genre, :description, :notes, :book_file ])
+      params.require(:book).permit ( [
+        :name,
+        :author,
+        :cost,
+        :currency,
+        :genre,
+        :page_count,
+        :language,
+        :publication_date,
+        :description,
+        :notes,
+        :book_file,
+       :book_image
+      ])
     end
 end

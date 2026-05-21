@@ -2,6 +2,8 @@
 
 <%= render @book %>
 
+<p><strong>Pages: <%= @book.page_count %></strong></p>
+
 <% if @book.book_file.attached? %>
     <p class="mb-2"> 📖 Download Book: 
         <%= link_to @book.book_file.filename,
@@ -9,6 +11,9 @@
               class: "text-blue-500 underline" %>
     </p>
     <% end %>
+
+
+  
 
 <h2>Reviews</h2>
 
@@ -36,21 +41,32 @@
 <%= form_with(model: [@book, Review.new], local: true) do |form| %>
 
   <p>Note: Rating increases from left to right</p>
+  <%# RATING SECTION %>
 
   <div class="mb-4">
-    <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
+  <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
 
-    <div class="flex flex-row-reverse justify-end">
-      <% (1..5).each do |star| %>
-        <%= form.radio_button :rating, star,
-              id: "review_rating_#{star}",
-              class: "peer hidden" %>
+  <p class="text-sm text-gray-600 mb-2">
+    Click a star to rate from 1 to 5.
+  </p>
 
-        <%= form.label "review_rating_#{star}", "★",
-              class: "text-4xl cursor-pointer select-none text-gray-300 hover:text-yellow-400 peer-checked:text-yellow-400" %>
-      <% end %>
-    </div>
+  <div class="flex items-center space-x-5">
+    <% (1..5).each do |star| %>
+    
+      <%= form.radio_button :rating, star,
+            id: "review_rating_#{star}",
+            style: "display: none;" %>
+
+      <!-- Visible clickable star -->
+      
+      <%= label_tag "review_rating_#{star}", "★",
+            class: "text-4xl cursor-pointer select-none text-yellow-400 hover:scale-110 hover:yellow-200 transition" %>
+    <% end %>
+    
   </div>
+    <p class="text-sm text-gray-500 mt-1"> 1 = Poor, 5 = Excellent</p>
+</div>
+  
 
 
   <div class="mb-4">
@@ -65,9 +81,10 @@
 
 <% end %>
 
-  <div class="mt-6">
-  <%= link_to "Edit this book", edit_book_path(@book) %> |
-  <%= link_to "Back to books", books_path %>
+  <div class="mt-6 ">
+  <%= link_to "Edit this book", edit_book_path(@book), class: "bg-blue-600 text-white px-4 py-2 rounded" %> |
+  <%= link_to "Back to books", books_path, class: "bg-blue-600 text-white px-4 py-2 rounded" %>
 
-  <%= button_to "Destroy this book", @book, method: :delete %>
+  <%= button_to "Destroy this book", @book, method: :delete, class: "bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded" %>
+
   </div>
