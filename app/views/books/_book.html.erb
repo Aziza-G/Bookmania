@@ -68,7 +68,7 @@
     <div>  
     
       <strong>Average Rating:</strong>
-      <% if book.average_rating.present? %>
+      <% if book.average_rating.present?%> <%# replace back present?%>
           <%= book.average_rating %>/5 
           <% else %>
           No ratings yet.

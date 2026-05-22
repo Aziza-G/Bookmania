@@ -1,12 +1,14 @@
 class ReviewsController < ApplicationController
+  before_action :require_authentication
   def create
     @book = Book.find(params[:book_id])
     @review = @book.reviews.build(review_params)
+    @review.user = Current.user
 
     if @review.save
       redirect_to @book, notice: "Review added!"
     else
-      redirect_to @book, alert: "Failed to add review."
+      render "books/show", status: :unprocessable_entity
     end
   end
 
