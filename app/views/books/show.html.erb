@@ -124,10 +124,12 @@
 <% end %>
 
   <div class="mt-6 ">
-  
+  <% if @book.user.present? && @book.user == Current.user %>
+
   <%= link_to "Edit this book", edit_book_path(@book), class: "bg-blue-600 text-white px-4 py-2 rounded" %> |
   <%= link_to "Back to books", books_path, class: "bg-blue-600 text-white px-4 py-2 rounded" %>
 
   <%= button_to "Destroy this book", @book, method: :delete, class: "bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded" %>
 
+  <% end %>
   </div>

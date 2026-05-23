@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
+  before_action :authorize_book_owner, only: %i[ edit update destroy ]
 
   # GET /books or /books.json
   def index
@@ -23,6 +24,7 @@ class BooksController < ApplicationController
   def create
     Rails.logger.debug params.inspect
     @book = Book.new(book_params)
+    @book.user = Current.user
 
     respond_to do |format|
       if @book.save
@@ -60,6 +62,14 @@ class BooksController < ApplicationController
 
 
   private
+  def authorize_book_owner
+    return if @book.user.nil?
+
+    unless @book.user == Current.user
+      redirect_to books_path, alert: "You are not authorized to do that."
+    end
+  end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_book
       @book = Book.find(params.expect(:id))

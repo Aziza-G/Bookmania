@@ -1,5 +1,8 @@
 class Book < ApplicationRecord
+  belongs_to :user, optional: true
+
   has_many :reviews, dependent: :destroy
+
   has_one_attached :book_file
   has_one_attached :book_image
 
