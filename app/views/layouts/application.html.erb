@@ -24,9 +24,11 @@
   </head>
 
   <body>
-    <!-- NAVIGATION BAR bg-gradient-to-br from-emerald-200 to-emerald-700-->
-    <nav class = "bg-gradient-to-r from bg-[#11296B] to-[#164dde] text-[#EDEDED] shadow-md">
+    <!-- NAVIGATION BAR-->
+
+    <nav class = "bg-gradient-to-r from-[#11296B] to-[#164dde] text-[#EDEDED] shadow-md">
       <div class = "max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+
           <!--Logo-->
           <div class="text-[#FFD500] font-['Merriweather']">
             <%= link_to books_path, class: "flex items-center gap-2 text-2xl font-bold hover:text-[#FFDB57] hover:scale-105 transition" do %>
@@ -38,33 +40,43 @@
             <% end %>
           </div>
 
+      
+
          
+      
           <!--Navigation-->
-          <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4">
 
-              
+         <% if authenticated? %>
 
-            <% if authenticated? && controller_name !="sessions" && controller_name != "users" %>
+        <%= link_to "Add Books", new_book_path, class: "hover:text-gray-200" %>
 
-            <%= link_to "Add Books", new_book_path, class: "hover:text-gray-200"%>
+       <span class="text-sm text-gray-200">
+          Signed in as <strong><%= Current.user.email_address %></strong>
+        </span>
 
-            <span class="text-sm text-gray-200"> Signed in as <strong><%= Current.user.email_address %></strong> </span>
+        <%= button_to "Logout", session_path,
+        method: :delete,
+        class: "bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" %>
 
-            <%= button_to "Logout", session_path, method: :delete, class: "bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" %>
+        <% elsif controller_name == "sessions" %>
 
-            <% else %>
+        <%= link_to "Sign Up", sign_up_path,
+        class: "border border-white px-4 py-2 rounded hover:bg-white hover:text-[#11296B] transition" %>
 
-            <%= link_to "Log In", new_session_path, class: "border px-3 py-1 border-gray-200 hover: text-gray-200 hover:bg-blue-800 transition" %>
+        <% elsif controller_name == "users" %>
 
-            <%= link_to "Sign Up", sign_up_path, class: "bg-white text-[#00509D] px-3 py-1 hover:bg-gray-200"%>
+         <%= link_to "Log In", new_session_path,
+        class: "border border-white px-4 py-2 rounded hover:bg-white hover:text-[#11296B] transition" %>
 
-            <% end %>
+      <% end %>
 
-          </div>
+        </div>
+
       </div>
     </nav>
 
-    <main class="container mx-auto mt-28 px-5 flex">
+    <main>
       <%= yield %>
     </main>
 
