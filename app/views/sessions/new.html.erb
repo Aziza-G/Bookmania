@@ -1,6 +1,39 @@
-<h1>Log In</h1>
 
-<%= form_with url: session_path, local: true do |form| %>
+  <div class="min-h-screen flex hidden md:flex w-1/2 bg-gradient-to-br from-[#11296B] to-[#188de7] items-center justify-center p-10">
+
+
+  <div class="text-center text-white">
+    
+    <%= image_tag "reading.svg", class: "w-100 mx-auto mb-6" %>
+
+    <h1 class="text-4xl font-bold mb-4">
+      Discover Your Next Favorite Book
+    </h1>
+
+    <p class="text-lg text-gray-200">
+      Review, rate, and share your reading journey.
+    </p>
+
+  </div>
+
+  </div>
+
+
+
+  <!--Log in Section -->
+
+  <div class="w-full md:w-1/2 flex items-center justify-center bg-white">
+
+  <div class="w-full max-w-md p-8">
+
+    <h2 class="text-3xl font-bold text-[#11296B] mb-8">
+      Log In
+    </h2>
+
+    <!-- FORM --> 
+
+
+  <%= form_with url: session_path, local: true do |form| %>
   <div class="mb-4">
     <%= form.label :email_address %>
     <%= form.email_field :email_address,
@@ -15,4 +48,6 @@
 
   <%= form.submit "Log In",
         class: "bg-blue-600 text-white px-4 py-2 rounded" %>
-<% end %>
+  <% end %>
+
+</div>
