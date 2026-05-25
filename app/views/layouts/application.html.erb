@@ -23,7 +23,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="bg-[#F7F4ED]">
     <!-- NAVIGATION BAR-->
 
     <nav class = "bg-gradient-to-r from-[#11296B] to-[#164dde] text-[#EDEDED] shadow-md">
@@ -33,7 +33,7 @@
           <div class="text-[#FFD500] font-['Merriweather']">
             <%= link_to books_path, class: "flex items-center gap-2 text-2xl font-bold hover:text-[#FFDB57] hover:scale-105 transition" do %>
 
-              <%= image_tag "book-storm.svg", class: "w-10 h-10 hover:scale-105 transition" %>
+              <%= image_tag "book-storm.svg", class: "w-12 h-12 hover:scale-105 transition" %>
 
               <span>Bookmania</span>
 
@@ -49,9 +49,9 @@
 
          <% if authenticated? %>
 
-        <%= link_to "Add Books", new_book_path, class: "hover:text-gray-200" %>
+        <%= link_to "Add Books", new_book_path, class: "px-6 py-2 bg-gray-900 hover:bg-gray-500 rounded font-serif hover:text-gray-200" %>
 
-       <span class="text-sm text-gray-200">
+       <span class="text-sm text-gray-700 px-3 py-2 bg-[#d8cab0] rounded-lg">
           Signed in as <strong><%= Current.user.email_address %></strong>
         </span>
 

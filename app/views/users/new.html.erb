@@ -1,4 +1,36 @@
-<h1>Create Account</h1>
+
+<div class="min-h-screen flex flex-row">
+
+  <!--Image side-->
+
+      <div class="hidden md:flex w-1/2 bg-gradient-to-br from-[#11296B] to-[#188de7] items-center justify-center p-10">
+      <div class="text-center text-white">
+    
+    <%= image_tag "reading.svg", class: "w-100 mx-auto mb-6" %>
+
+    <h1 class="text-4xl font-bold mb-4">
+      Join the Bookmania Community
+    </h1>
+
+    <p class="text-lg text-gray-200">
+      Browse books, write reviews, and discover new favourites. 
+    </p>
+
+  </div>
+
+  </div>
+
+<!--SIGN IN -->
+
+  <div class="w-full md:w-1/2 flex items-center justify-center bg-[#F7F4ED]">
+
+  <div class="w-full max-w-md p-8">
+
+    <h2 class="flex items-center gap-3 text-3xl font-bold text-[#11296B] mb-8">
+      
+      <span> Create Account </span>
+
+      </h2>
 
 <% if @user&.errors&.any? %>
   <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -17,21 +49,41 @@
   <div class="mb-4">
     <%= form.label :email_address %>
     <%= form.email_field :email_address,
-          class: "border p-2 rounded w-full" %>
+          class: "w-full rounded-xl border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00509D] hover:bg-gray-300 "%>
   </div>
 
   <div class="mb-4">
     <%= form.label :password %>
     <%= form.password_field :password,
-          class: "border p-2 rounded w-full" %>
+          class: "w-full rounded-xl border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00509D] hover:bg-gray-300" %>
   </div>
 
   <div class="mb-4">
     <%= form.label :password_confirmation %>
     <%= form.password_field :password_confirmation,
-          class: "border p-2 rounded w-full" %>
+          class: "w-full rounded-xl border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00509D] hover:bg-gray-300" %>
   </div>
 
-  <%= form.submit "Create Account",
-        class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+    <!--SUBMIT BUTTON-->
+ <button
+  type="submit"
+  class="group flex items-center justify-center gap-3 w-full bg-[#11296B] hover:bg-[#FFD500] text-white hover:text-[#11296B] py-3 rounded-xl font-semibold transition duration-300 shadow-md"
+>
+  <!-- ICONS WRAPPER -->
+  <div class="relative w-6 h-6">
+    <!-- NORMAL ICON -->
+    <%= image_tag "bookmark-inverse.svg",
+        class: "absolute inset-0 w-6 h-6 transition-opacity duration-300 opacity-100 group-hover:opacity-0" %>
+
+    <!-- HOVER ICON -->
+    <%= image_tag "bookmark.svg",
+        class: "absolute inset-0 w-6 h-6 transition-opacity duration-300 opacity-0 group-hover:opacity-100" %>
+  </div>
+
+  <span>Create Account</span>
+</button>
 <% end %>
+
+  </div>
+  </div>
+</div>
