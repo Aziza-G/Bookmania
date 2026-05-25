@@ -54,7 +54,7 @@
 
       <%= link_to "Edit Review",
             edit_book_review_path(@book, review),
-            class: "bg-yellow-500 text-white px-3 py-1 rounded mr-2" %>
+            class: "bg-[#F7F4ED] text-[#11296B] border border-[#11296B] hover:text-[#d8cab0] px-3 py-1 rounded mr-2" %>
 
     <% end %>
 
@@ -118,7 +118,7 @@
 
   <div>
     <%= form.submit "Submit Review",
-          class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+          class: "bg-[#11296B] hover:bg-[#FFD500] text-[#FFFFFF] hover:text-[#11296B] px-4 py-2 rounded" %>
   </div>
 
 <% end %>
@@ -126,10 +126,10 @@
   <div class="mt-6 ">
   <% if @book.user.present? && @book.user == Current.user %>
 
-  <%= link_to "Edit this book", edit_book_path(@book), class: "bg-blue-600 text-white px-4 py-2 rounded" %> |
-  <%= link_to "Back to books", books_path, class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+  <%= link_to "Edit this book", edit_book_path(@book), class: "bg-[#F7F4ED] text-[#11296B] px-4 py-2 rounded border border-[#11296B] hover:text-[#d8cab0]" %> |
+  <%= link_to "Back to books", books_path, class: "bg-[#F7F4ED] text-[#11296B] px-4 py-2 rounded border border-[#11296B] hover:text-[#d8cab0]" %>
 
-  <%= button_to "Destroy this book", @book, method: :delete, class: "bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded" %>
+  <%= button_to "Destroy this book", @book, method: :delete, class: "bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded" %>
 
   <% end %>
   </div>

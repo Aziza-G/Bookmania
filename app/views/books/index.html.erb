@@ -9,11 +9,11 @@
   <% @books.each do |book| %>
     <%= render book %>
     <p>
-      <%= link_to "Show this book", book %>
+      <%= link_to "Show this book", book, class: "bg-[#F7F4ED] text-[#11296B] px-4 py-2 rounded border border-[#11296B] hover:text-[#d8cab0]" %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New book", new_book_path %>
+<%= link_to "+", new_book_path, class: "fixed z-[999] bottom-6 right-6 w-14 h-14 flex items-center justify-center bg-[#11296B] hover:bg-[#FFD500] text-[#FFFFFF] hover:text-[#11296B] rounded-full shadow-lg transition-all duration-300 hover:scale-110" %>
 
 <%# class = "container mx-auto mt-28 px-5 flex" %>
