@@ -3,14 +3,15 @@
 
 <% content_for :title, "Books" %>
 
-<h1>Books</h1>
+<div class="mb-8 bg-white">
+<h1 class="text-4xl font-bold text-[#11296B] mb-3"> Discover Books</h1>
 
-<div id="books">
+<p class="text-gray-600">Browse, review, and share your favourite books.</p>
+</div>
+
+<div id="books" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
   <% @books.each do |book| %>
     <%= render book %>
-    <p>
-      <%= link_to "Show this book", book, class: "bg-[#F7F4ED] text-[#11296B] px-4 py-2 rounded border border-[#11296B] hover:text-[#d8cab0]" %>
-    </p>
   <% end %>
 </div>
 

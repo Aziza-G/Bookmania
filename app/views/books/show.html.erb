@@ -2,7 +2,24 @@
 
 <%= render @book %>
 
-<p><strong>Pages: <%= @book.page_count %></strong></p>
+<div class="bg-white p-6 rounded shadow mt-6">
+
+  <p>
+    <strong>Pages:</strong>
+    <%= @book.page_count %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= @book.description%>
+  </p>
+
+  <p>
+    <strong>Notes:</strong>
+    <%= @book.notes %>
+  </p>
+
+</div>
 
 <% if @book.book_file.attached? %>
     <p class="mb-2"> 📖 Download Book: 

@@ -26,12 +26,15 @@
   <body class="bg-[#F7F4ED]">
     <!-- NAVIGATION BAR-->
 
-    <nav class = "bg-gradient-to-r from-[#11296B] to-[#164dde] text-[#EDEDED] shadow-md">
-      <div class = "max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+    <nav class = "bg-gradient-to-r from-[#11296B] to-[#164dde] text-[#EDEDED] shadow-md border-b-4 border-[#FFD500]">
+      <div class = "max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+
+          <!--LEFT-->
+          <div class="flex flex-col">
 
           <!--Logo-->
           <div class="text-[#FFD500] font-['Merriweather']">
-            <%= link_to books_path, class: "flex items-center gap-2 text-2xl font-bold hover:text-[#FFDB57] hover:scale-105 transition" do %>
+            <%= link_to books_path, class: "flex items-center gap-3 text-4xl font-bold tracking-wide hover:text-[#FFDB57] hover:scale-105 transition" do %>
 
               <%= image_tag "book-storm.svg", class: "w-12 h-12 hover:scale-105 transition" %>
 
@@ -44,20 +47,15 @@
 
          
       
-          <!--Navigation-->
-      <div class="flex items-center gap-4">
+          <!--Navigation left-->
+      <div class="mt-2 flex gap-6">
 
          <% if authenticated? %>
 
-        <%= link_to "Add Books", new_book_path, class: "px-6 py-2 bg-gray-900 hover:bg-gray-500 rounded font-serif hover:text-gray-200" %>
+        <%= link_to "My Books", books_path, class: "text-md font-medium hover:text-[#FFD500]"%>
+        <%= link_to "Add Books", new_book_path, class: "text-md font-medium hover:text-[#FFD500]" %>
 
-       <span class="text-sm text-gray-700 px-3 py-2 bg-[#d8cab0] rounded-lg">
-          Signed in as <strong><%= Current.user.email_address %></strong>
-        </span>
-
-        <%= button_to "Logout", session_path,
-        method: :delete,
-        class: "bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" %>
+        <%= link_to "🎔 Favourites", "#", class: "text-md font-medium hover:text-[#FFD500]" %>
 
         <% elsif controller_name == "sessions" %>
 
@@ -74,9 +72,21 @@
         </div>
 
       </div>
+
+      <div class = "flex items-center gap-4">
+       <span class="bg-white text-[#11296B] px-4 py-1 rounded-full text-sm font-medium">
+        <%= Current.user.email_address %>
+        </span>
+
+        <%= button_to "Logout", session_path,
+        method: :delete,
+        class: "bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg" %>
+
+        </div>
+
     </nav>
 
-    <main>
+    <main class="max-w-7xl mx-auto px-6 py-8">
       <%= yield %>
     </main>
 

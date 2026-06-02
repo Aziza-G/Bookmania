@@ -1,13 +1,26 @@
-<div id="<%= dom_id book %>", class= "bg-[#F7F4ED] py-8">
+<div id="<%= dom_id book %>", class= "bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 max-w-sm mx-auto">
+    
+    
+    <% if book.book_image.attached? %>
+  <%= link_to book_path(book) do %>
+    <%= image_tag book.book_image,
+          class: "w-full h-64 object-cover rounded-lg shadow" %> <%# hover:scale-105 transition duration-300 cursor-pointer%>
+  <% end %>
+    <% else %>
+    <div class="h-64 bg-[#D8CAB0] flex items-center justify-center">
+  <span class="text-gray-600">No Cover Available</span>
+    </div>
+    <% end %>
+  
+  <div class="p-5">
+
   <div>
-    <strong>Name:</strong>
-    <%= link_to book.name, 
-        book_path(book), class: " hover:text-blue-800 hover:underline font-semibold" %>
+    <h2 class="text-xl font-bold text-[#11296B]">Name:</h2>
+    <%= link_to book.name, book_path(book), class: " hover:text-blue-800 hover:underline" %>
   </div>
 
   <div>
-    <strong>Author:</strong>
-    <%= book.author %>
+    <p class="text-gray-600 mb-3"> by <%= book.author %> </p>
   </div>
 
   <% symbols = {
@@ -18,61 +31,46 @@
     "CAD" => "$"
   } %>
 
-  <% currency = book.currency.presence || "USD" %>
+  <% currency = book.currency.presence || "USD" %>  
 
-  <div>
+  <div class="mb-2">
     <strong>Cost:</strong>
     <%= currency %>
     <%= symbols[currency] || "" %><%= number_with_precision(book.cost, precision: 2) %>
   </div>
 
-  <div>
+  <div class="mb-3">
     <strong>Genre:</strong>
     <%= book.genre %>
   </div>
 
-  <div>
-    <strong>Number of Pages:</strong>
-    <%= book.page_count %>
-  </div>
+    <div class="mb-2">  
+    
+      <strong>Average Rating:</strong>
+      <% if book.average_rating.present?%> 
+          <div class="text-[#FFD500] text-lg">
+            <%= "★" * book.average_rating.round %>
+            <%= "☆" * (5 - book.average_rating.round) %>
+            </div>
 
-  <div>
-    <strong>Description:</strong>
-    <%= book.description %>
-  </div>
+            <p class="text-sm text-gray-600" >
+              <%= book.average_rating.round(1) %>/5 </p>
+          <% else %>
+          <p class="text-gray-500">
+          No ratings yet.
+          </p>
+      <% end %>
+    
+    </div>
 
-  <div>
-    <strong>Notes:</strong>
-    <%= book.notes %>
-  </div>
-
-  <div>
+  <div class="mb-3">
     <strong>Language:</strong>
     <%= book.language %>
   </div> 
 
-  <div>
-    <strong>Publication Date:</strong>
-    <%= book.publication_date&.strftime("%B %d, %Y") %>
-  </div>
+    <p>
+      <%= link_to "View book", book_path(book), class: "inline-block mt-4 bg-[#00509D] text-white px-4 py-2 rounded-lg hover:bg-[#11296B]" %>
+    </p>
 
-  <% if book.book_image.attached? %>
-  <%= link_to book_path(book) do %>
-    <%= image_tag book.book_image,
-          class: "w-40 h-auto rounded-lg shadow hover:scale-105 transition duration-300 cursor-pointer" %>
-  <% end %>
-    <% else %>
-  <p class="text-gray-500">No cover image available.</p>
-    <% end %>
-
-    <div>  
-    
-      <strong>Average Rating:</strong>
-      <% if book.average_rating.present?%> <%# replace back present?%>
-          <%= book.average_rating %>/5 
-          <% else %>
-          No ratings yet.
-      <% end %>
-    
     </div>
 </div>
