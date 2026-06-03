@@ -1,32 +1,96 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @book %>
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
 
-<div class="bg-white p-6 rounded shadow mt-6">
+  <div class="grid md:grid-cols-3 gap-8 p-8">
 
-  <p>
-    <strong>Pages:</strong>
-    <%= @book.page_count %>
-  </p>
+    <div>
+      <% if @book.book_image.attached? %>
+        <%= image_tag @book.book_image,
+          class: "w-full rounded-xl shadow-lg" %>
+      <% else %>
+        <div class="h-96 bg-[#D8CAB0] rounded-xl flex items-center justify-center">
+          <span class="text-gray-600">No Cover Available</span>
+        </div>
+      <% end %>
+    </div>
 
-  <p>
-    <strong>Description:</strong>
-    <%= @book.description%>
-  </p>
+    <div class="md:col-span-2">
 
-  <p>
-    <strong>Notes:</strong>
-    <%= @book.notes %>
-  </p>
+      <h1 class="text-4xl font-bold text-[#11296B] mb-2">
+        <%= @book.name %>
+      </h1>
+
+      <p class="text-xl text-gray-600 mb-4">
+        by <%= @book.author %>
+      </p>
+
+      <div class="flex flex-wrap gap-3 mb-4">
+
+        <span class="bg-[#FFD500] text-[#11296B] px-3 py-1 rounded-full font-semibold">
+          <%= @book.genre %>
+        </span>
+
+        <span class="bg-[#F7F4ED] px-3 py-1 rounded-full">
+          <%= @book.language %>
+        </span>
+
+      </div>
+
+      <p class="mb-2">
+        <strong>Pages:</strong>
+        <%= @book.page_count %>
+      </p>
+
+      <p class="mb-2">
+        <strong>Published:</strong>
+        <%= @book.publication_date&.strftime("%B %d, %Y") %>
+      </p>
+
+      <p class="mb-4">
+        <strong>Average Rating:</strong>
+        <%= @book.average_rating || "No ratings yet" %>
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+
+  <h2 class="text-2xl font-bold text-[#11296B] mb-4">
+    About this Book
+  </h2>
+
+  <div class="mb-6">
+    <h3 class="font-semibold text-lg">
+      Description
+    </h3>
+
+    <p class="text-gray-700">
+      <%= @book.description %>
+    </p>
+  </div>
+
+  <div class="mb-6">
+    <h3 class="font-semibold text-lg">
+      Notes
+    </h3>
+
+    <p class="text-gray-700">
+      <%= @book.notes %>
+    </p>
+  </div>
 
   <% if @book.book_file.attached? %>
-    <p class="mb-2"> 📖 Download Book: 
-        <%= link_to @book.book_file.filename,
-              rails_blob_path(@book.book_file, disposition: "attachment"),
-              class: "text-blue-500 underline" %>
-    </p>
-    <% end %>
+    <%= link_to @book.book_file.filename,
+          rails_blob_path(@book.book_file, disposition: "attachment"),
+          class: "inline-block bg-[#00509D] text-white px-4 py-2 rounded-lg hover:bg-[#11296B]" %>
+  <% end %>
 
+  <div class="mt-3">
     <% favorite = Current.user&.favorites&.find_by(book: @book) %>
 
 <% if authenticated? %>
@@ -36,26 +100,27 @@
     <%= button_to "♥",
           book_favorite_path(@book, favorite),
           method: :delete,
-          class: "bg-red-500 text-white px-4 py-2 rounded" %>
+          class: "w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center text-xl hover:bg-red-700 transition" %>
 
   <% else %>
 
     <%= button_to "♡",
           book_favorites_path(@book),
           method: :post,
-          class: "bg-[#FFD500] text-[#11296B] px-4 py-2 rounded" %>
+          class: "w-12 h-12 bg-[#FFD500] text-[#11296B] rounded-full flex items-center justify-center text-xl hover:bg-[#FFDB57] transition" %>
 
   <% end %>
 
 <% end %>
+  </div>
 
 </div>
 
 
-  <h2>Reviews</h2>
+  <h2 class="text-3xl font-bold text-[#11296B] mb-6">Reader Reviews</h2>
 
 <% @book.reviews.each do |review| %>
-  <div class="mb-4 p-4 border rounded">
+  <div class="bg-white rounded-xl shadow-md mb-4 p-5">
 
     <span>
     <p>
@@ -101,7 +166,7 @@
   </div>
 <% end %>
 
-<h3>Add a Review</h3>
+<h3 class="text-2xl font-bold text-[#11296B] mb-4">Leave a Review</h3>
 
   <% if @review&.errors&.any? %>
   <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -125,7 +190,7 @@
   <%# RATING SECTION %>
 
 
-  <div class="mb-4">
+  <div class="bg-white rounded-2xl shadow-lg p-8 mt-8 mb-4">
   <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
 
   <p class="text-sm text-gray-600 mb-2">
@@ -163,13 +228,13 @@
 
 <% end %>
 
-  <div class="mt-6 ">
+  <div class="flex gap-4 mt-8 flex-wrap">
   <% if @book.user.present? && @book.user == Current.user %>
 
-  <%= link_to "Edit this book", edit_book_path(@book), class: "bg-[#F7F4ED] text-[#11296B] px-4 py-2 rounded border border-[#11296B] hover:text-[#d8cab0]" %> |
-  <%= link_to "Back to books", books_path, class: "bg-[#F7F4ED] text-[#11296B] px-4 py-2 rounded border border-[#11296B] hover:text-[#d8cab0]" %>
+  <%= link_to "🖉 Edit", edit_book_path(@book), class: "bg-[#00509D] text-white px-4 py-2 rounded-lg " %> |
+  <%= link_to "↩ Back", books_path, class: "bg-[#F7F4ED] px-4 py-2 rounded-lg border border-[#11296B]" %>
 
-  <%= button_to "Destroy this book", @book, method: :delete, class: "bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded" %>
+  <%= button_to "✕ Destroy", @book, method: :delete, class: "bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded" %>
 
   <% end %>
   </div>
