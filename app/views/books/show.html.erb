@@ -26,9 +26,30 @@
               class: "text-blue-500 underline" %>
     </p>
     <% end %>
-    
-</div>
 
+    <% favorite = Current.user&.favorites&.find_by(book: @book) %>
+
+<% if authenticated? %>
+
+  <% if favorite %>
+
+    <%= button_to "♥",
+          book_favorite_path(@book, favorite),
+          method: :delete,
+          class: "bg-red-500 text-white px-4 py-2 rounded" %>
+
+  <% else %>
+
+    <%= button_to "♡",
+          book_favorites_path(@book),
+          method: :post,
+          class: "bg-[#FFD500] text-[#11296B] px-4 py-2 rounded" %>
+
+  <% end %>
+
+<% end %>
+
+</div>
 
 
   <h2>Reviews</h2>

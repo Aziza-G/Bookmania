@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :books do
     resources :reviews, only: [ :create, :edit, :update, :destroy ]
+    resources :favorites, only: [ :create, :destroy ]
     end
+  get "/favorites", to: "favorites#index"
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

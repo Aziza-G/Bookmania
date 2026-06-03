@@ -2,6 +2,8 @@ class Book < ApplicationRecord
   belongs_to :user, optional: true
 
   has_many :reviews, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_by, through: :favourites, source: :user
 
   has_one_attached :book_file
   has_one_attached :book_image

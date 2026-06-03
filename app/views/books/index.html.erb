@@ -9,6 +9,35 @@
 <p class="text-gray-600">Browse, review, and share your favourite books.</p>
 </div>
 
+<div class="mb-6">
+  <%= form_with url: books_path, method: :get, local: true do %>
+    <div class="flex gap-4 items-center">
+
+     <%= select_tag :genre,
+      options_for_select(
+        [["All Genres", ""]] + Book::GENRES.map { |g| [g, g] },
+        params[:genre]
+      ),
+      class: params[:genre].present? ?
+        "border rounded-lg p-2 bg-[#FFD500] text-[#11296B] font-semibold" :
+        "border rounded-lg p-2 bg-white text-black" %>
+
+      <%= submit_tag "Filter",
+            class: "bg-[#11296B] text-white px-4 py-2 rounded-lg hover:bg-[#00509D]" %>
+      
+      <%= link_to "Show All Books", books_path, class: "inline-block mt-2 text-[#005095D] hover:underline"%>
+
+    </div>
+  <% end %>
+</div>
+
+<% if params[:genre].present? %>
+  <p class="mb-4 text-[#11296B] font-semibold"> Showing books in: <%= params[:genre] %>
+  </p>
+  <% end %>
+
+
+
 <div id="books" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
   <% @books.each do |book| %>
     <%= render book %>
