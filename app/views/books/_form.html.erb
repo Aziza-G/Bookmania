@@ -1,6 +1,7 @@
 <%= form_with(model: book) do |form| %>
 
-<%# error message %>
+<div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+  <%# error message %>
   <% if book.errors.any? %>
   <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
     <h2>
@@ -17,13 +18,13 @@
  
  <%# Book Title %>
   <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name, style: "border" %>
+    <%= form.label :name, class:"block font-semibold mb-2" %>
+    <%= form.text_field :name, class: "w-full border border-[#00509D] rounded-lg focus:ring-2 focus:ring-[#FFD500] py-2" %>
   </div>
     <%# Author section %>
     <div>
-      <%= form.label :author, style: "display: block"%>
-      <%= form.text_field :author, style: "border" %>
+      <%= form.label :author, class:"block font-semibold mb-2" %>
+      <%= form.text_field :author, class: "w-full border border-[#00509D] rounded-lg focus:ring-2 focus:ring-[#FFD500] py-2" %>
     </div>
 
     <%# Genre drop list %>
@@ -31,22 +32,24 @@
     <%= form.label :genre, class: "block font-semibold mb-2" %>
     <%= form.select :genre, 
       Book::GENRES, 
-      { prompt: "Select a genre"}, class: "w-full border rounded-lg p-2" %>
+      { prompt: "Select a genre"}, class: "w-full border border-[#00509D] rounded-lg p-2" %>
   </div>
 
+  <div class="grid md:grid-cols-3 gap-4 mb-4">
+
     <%# Page Number section %>
-    <div classs="mb-4">
-      <%= form.label :page_count, "Number of Pages", class: "block font-semiblock mb-2"%>
+    <div class="mb-4">
+      <%= form.label :page_count, "Number of Pages", class: "block font-semibold mb-2"%>
       <%= form.number_field :page_count, 
             min: 1, 
             step: 1, 
-            required: true, class: "border p-2 rounded w-full"%>
+            required: true, class: "border border-[#00509D] p-2 rounded w-full"%>
     </div>
 
 
     <div class="mb-4">
   <%= form.label :currency, "Currency",
-        class: "block font-semibold mb-2" %>
+        class: "block font-semibold mb-2 focus:ring-2 focus:ring-[#FFD500]" %>
 
   <%= form.select :currency,
         [
@@ -57,51 +60,65 @@
           ["CAD - Canadian Dollar", "CAD"]
         ],
         { prompt: "Select Currency" },
-        class: "border p-2 rounded w-full" %>
+        class: "border p-2 rounded-lg border-[#00509D] w-full" %>
     </div>
 
       <%# Cost section %>
     <div>
-      <%= form.label :cost, style: "display: block"%>
-      <%= form.number_field :cost%>
+      <%= form.label :cost, "Cost", class: "block font-semibold mb-2"%>
+      <%= form.number_field :cost, 
+          step: 0.01, 
+          class: "w-full border border-[#00509D] rounded-lg focus:ring-2 focus:ring-[#FFD500] py-2"%>
     </div>
+
+   </div> 
 
     <%# desciption %>
   <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.textarea :description, placeholder: "Add a Synopsis" %>
+    <%= form.label :description, class:"block font-semibold mb-2" %>
+    <%= form.textarea :description,
+              rows: 5, 
+            placeholder: "Write a Synopsis", class: "w-full border border-[#00509D] rounded-lg p-3 focus:ring-2 focus:ring-[#FFD500] py-2" %>
   </div>
 
     <%# notes %>
   <div>
-    <%= form.label :notes, style: "display: block" %>
-    <%= form.textarea :notes, placeholder: "Any memorable quotes? Fun facts about the author? Share!" %>
+    <%= form.label :notes, class: "block font-semibold mb-2" %>
+    <%= form.textarea :notes,
+          rows: 5,
+          placeholder: "Quotes? Trivia? Personal thoughts?", class: "w-full border border-[#00509D] rounded-lg p-3 focus:ring-2 focus:ring-[#FFD500] py-2" %>
   </div>
 
       <%# language %>
       <div class="mb-4">
         <%= form.label :language, "Language", class: "block font-semibold mb-2" %>
-        <%= form.text_field :language, placeholder: "English", class: "border p-2 rounded w-full"%>
+        <%= form.text_field :language, placeholder: "English", class: "border border-[#00509D] p-2 rounded w-full focus:ring-2 focus:ring-[#FFD500] py-2"%>
       </div>
 
     <%# publication date %>
     <div class="mb-4">
       <%= form.label :publication_date, "Publication Date", class: "block font-semibold mb-2" %>
-      <%= form.date_field :publication_date, class: "border p-2 rounded w-full"%>
+      <%= form.date_field :publication_date, class: "border border-[#00509D] p-2 rounded w-full focus:ring-2 focus:ring-[#FFD500] py-2"%>
     </div>
 
+
+  <div class="bg-[#F7F4ED] border-2 border-dashed border-[#ffde38] p-6 rounded-xl mb-4">
     <%# download link %>
   <div class="mb-4">
   <%= form.label :book_file, "Upload Book File", class: "block font-semibold mb-2"%>
-  <%= form.file_field :book_file, class: "border p-2 rounded w-full" %>
+  <%= form.file_field :book_file, class: "border border-gray-500 p-2 rounded w-full bg-[#FFDB57] hover:bg-[#ffe665]" %>
   </div>
     <%# book cover%>
   <div class ="mb-4">
     <%= form.label :book_image, "Book Cover", class: "block font-semibold mb-2"%>
-    <%= form.file_field :book_image, class: "border p-2 rounded w-full" %>
+    <%= form.file_field :book_image, class: "border border-gray-500 p-2 rounded w-full bg-[#FFDB57] hover:bg-[#ffe665]" %>
   </div>
 
-  <div>
-    <%= form.submit "Add to Library", class: "bg-[#11296B] hover:bg-[#FFD500] text-[#FFFFFF] hover:text-[#11296B] rounded px-3 py-2"%>
+  </div>
+
+</div>
+
+  <div class="mt-4">
+    <%= form.submit "Add to Library", class: " w-full bg-[#11296B] hover:bg-[#FFD500]  border-2 hover:border-[#11296B] text-white hover:text-[#11296B] rounded-xl transition duration-300 py-2"%>
   </div>
 <% end %>

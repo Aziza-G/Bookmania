@@ -19,15 +19,17 @@
     <%= @book.notes %>
   </p>
 
-</div>
-
-<% if @book.book_file.attached? %>
+  <% if @book.book_file.attached? %>
     <p class="mb-2"> 📖 Download Book: 
         <%= link_to @book.book_file.filename,
               rails_blob_path(@book.book_file, disposition: "attachment"),
               class: "text-blue-500 underline" %>
     </p>
     <% end %>
+    
+</div>
+
+
 
   <h2>Reviews</h2>
 
