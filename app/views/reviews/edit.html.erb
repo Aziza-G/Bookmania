@@ -1,42 +1,57 @@
-<h1 class="text-3xl font-bold mb-6">Edit Review</h1>
+<div class="max-w-3xl mx-auto">
+
+<div class="bg-white rounded-2xl shadow-lg p-8">
+
+<h1 class="text-3xl font-bold text-[#11296B] mb-2">Edit Review</h1>
+
+<p class="text-gray-600">Update your rating and thoughts about this book.</p>
 
 <%= form_with(model: [@book, @review]) do |form| %>
 
   <!-- Star Rating -->
-  <div class="mb-4">
-    <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
+  <div class="mb-6">
+  <%= form.label :rating, "Rating",
+        class: "block font-semibold text-[#11296B] mb-2" %>
 
-    <div class="flex flex-row-reverse justify-end">
-      <% (1..5).each do |star| %>
-        <%= form.radio_button :rating, star,
-              id: "edit_review_rating_#{star}",
-              class: "peer hidden" %>
+  <p class="text-sm text-gray-500 mb-3">
+    Click a star to update your rating.
+  </p>
 
-        <%= form.label "edit_review_rating_#{star}", "★",
-              class: "text-4xl cursor-pointer select-none
-                      text-gray-300
-                      hover:text-yellow-400
-                      peer-checked:text-yellow-400" %>
-      <% end %>
-    </div>
+  <div class="flex gap-2">
+    <% (1..5).each do |star| %>
+
+      <%= form.radio_button :rating, star,
+            id: "edit_review_rating_#{star}",
+            style: "display:none;" %>
+
+      <%= label_tag "edit_review_rating_#{star}", "★",
+            class: "text-4xl cursor-pointer text-yellow-400 hover:scale-110 transition" %>
+
+    <% end %>
   </div>
+</div>
 
   <!-- Review Content -->
-  <div class="mb-4">
-    <%= form.label :content, "Review", class: "block font-semibold mb-2" %>
-    <%= form.text_area :content,
-          rows: 5,
-          class: "w-full border rounded-lg p-3" %>
-  </div>
+  <div class="mb-6">
+  <%= form.label :content, "Review",
+        class: "text-[#00509D] font-serif text-2xl mb-3 block" %>
+
+  <%= form.text_area :content,
+        rows: 6,
+        class: "w-full border border-[#00509D] rounded-lg p-4 focus:ring-2 focus:ring-[#FFD500]" %>
+</div>
 
   <!-- Buttons -->
   <div class="flex gap-3">
-    <%= form.submit "Update Review",
-          class: "bg-[#11296B] hover:bg-[#FFD500] text-[#FFFFFF] hover:text-[#11296B] px-4 py-2 rounded-lg" %>
+    <%= form.submit "🠅 Save Changes",
+          class: "bg-[#11296B] hover:bg-[#FFD500] text-white hover:text-[#11296B] px-5 py-3 rounded-lg transition" %>
 
-    <%= link_to "Cancel",
+    <%= link_to "↩ Cancel",
           @book,
-          class: "bg-gray-600 text-gray-100 px-4 py-2 rounded-lg hover:bg-gray-400" %>
+          class: "bg-[#F7F4ED] border border-[#11296B] text-[#11296B] px-5 py-3 rounded-lg hover:bg-[#D8CAB0] transition" %>
   </div>
 
-<% end %>
+  </div>
+    <% end %>
+  </div>
+</div>

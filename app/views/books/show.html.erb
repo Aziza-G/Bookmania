@@ -47,10 +47,22 @@
         <%= @book.publication_date&.strftime("%B %d, %Y") %>
       </p>
 
-      <p class="mb-4">
-        <strong>Average Rating:</strong>
-        <%= @book.average_rating || "No ratings yet" %>
-      </p>
+      <% if @book.average_rating.present? %>
+
+  <div class="text-[#FFD500] text-2xl">
+    <%= "★" * @book.average_rating.round %>
+    <%= "☆" * (5 - @book.average_rating.round) %>
+  </div>
+
+  <p class="text-gray-600">
+    <%= @book.average_rating.round(1) %>/5
+  </p>
+
+<% else %>
+
+  <p class="text-gray-500">No ratings yet.</p>
+
+  <% end %>
 
     </div>
 
@@ -116,11 +128,13 @@
 
 </div>
 
-
+    <!--REVIEWS -->
+    <!--User reviews-->
+  <div class="bg-[#F7F4ED] rounded-2xl p-2 mb-10">
   <h2 class="text-3xl font-bold text-[#11296B] mb-6">Reader Reviews</h2>
 
 <% @book.reviews.each do |review| %>
-  <div class="bg-white rounded-xl shadow-md mb-4 p-5">
+  <div class="bg-white rounded-xl shadow-md p-5 mb-4">
 
     <span>
     <p>
@@ -131,7 +145,13 @@
 
     <span>
       <p class= "text-sm text-gray-500">
+        <% if review.created_at.present? %>
+
         Reviewed: <%= time_ago_in_words(review.created_at) %> ago
+
+        <% else %>
+          Just now
+          <% end %>
       </p>
     </span>
 
@@ -147,26 +167,35 @@
       (<%= review.rating %>/5)
     </p>
 
-    <p><%= review.content %></p>
+    <p class="mb-4">
+      <%= review.content %></p>
 
-    <% if review.user.present? && review.user == Current.user %>
+    <% if review.persisted? && review.user.present? && review.user == Current.user %>
 
-      <%= link_to "Delete Review",
-            [@book, review],
+          <!--Review delete-->
+      <div class="mt-4 flex gap-2">
+
+      <%= button_to "✕ Delete",
+            book_review_path(@book, review),
             method: :delete,
             data: { turbo_confirm: "Are you sure?" },
-            class: "mt-2 bg-red-600 text-white px-3 py-1 rounded" %>
+            class: "mt-2 bg-red-600 text-white hover:bg-red-700 px-3 py-2 rounded" %>
 
-      <%= link_to "Edit Review",
+          <!--Review edit -->
+      <%= link_to "🖉 Edit",
             edit_book_review_path(@book, review),
-            class: "bg-[#F7F4ED] text-[#11296B] border border-[#11296B] hover:text-[#d8cab0] px-3 py-1 rounded mr-2" %>
-
+            class: "mt-2 bg-[#F7F4ED] text-[#11296B] border border-[#11296B] hover:text-[#d8cab0] px-3 py-2 rounded" %>
+        
+      </div>
     <% end %>
-
   </div>
+  
 <% end %>
+</div>
 
-<h3 class="text-2xl font-bold text-[#11296B] mb-4">Leave a Review</h3>
+<!--Writing review section-->
+<div class="bg-white rounded-2xl shadow-lg p-8 mt-10">
+<h3 class="text-3xl font-bold text-[#11296B] mb-4">Leave a Review</h3>
 
   <% if @review&.errors&.any? %>
   <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -184,13 +213,12 @@
 <% end %>
 
 
-<%= form_with(model: [@book, @review || Review.new], local: true) do |form| %>
+<%= form_with(model: [@book, Review.new], url: book_reviews_path(@book), local: true) do |form| %>
+    
+  
 
   <p>Note: Rating increases from left to right</p>
   <%# RATING SECTION %>
-
-
-  <div class="bg-white rounded-2xl shadow-lg p-8 mt-8 mb-4">
   <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
 
   <p class="text-sm text-gray-600 mb-2">
@@ -211,14 +239,15 @@
     <% end %>
     
   </div>
-    <p class="text-sm text-gray-500 mt-1"> 1 = Poor, 5 = Excellent</p>
-</div>
+    <p class="text-sm text-gray-500 mt-1 mb-5"> 1 = Poor, 5 = Excellent</p>
+
   
 
 
-  <div class="mb-4">
-    <%= form.label :content, "Review" %>
-    <%= form.text_area :content, rows: 4, class: "w-full border rounded p-2" %>
+    <!-- Review Content -->
+  <div class="mb-6">
+    <%= form.label :content, "Review", class: "text-[#00509D] font-serif text-2xl pt-6" %>
+    <%= form.text_area :content, rows: 4, class: "w-full border border-[#00509D] rounded-lg focus:ring-2 focus:ring-[#FFD500] p-4" %>
   </div>
 
   <div>
@@ -227,11 +256,12 @@
   </div>
 
 <% end %>
+  </div>
 
   <div class="flex gap-4 mt-8 flex-wrap">
   <% if @book.user.present? && @book.user == Current.user %>
 
-  <%= link_to "🖉 Edit", edit_book_path(@book), class: "bg-[#00509D] text-white px-4 py-2 rounded-lg " %> |
+  <%= link_to "🖉 Edit", edit_book_path(@book), class: "bg-[#00509D] text-white px-4 py-2 rounded-lg " %> 
   <%= link_to "↩ Back", books_path, class: "bg-[#F7F4ED] px-4 py-2 rounded-lg border border-[#11296B]" %>
 
   <%= button_to "✕ Destroy", @book, method: :delete, class: "bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded" %>
