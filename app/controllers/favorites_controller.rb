@@ -20,6 +20,6 @@ class FavoritesController < ApplicationController
     favorite.destroy
 
     redirect_to favorite.book,
-                notice: "Removed from favorites."
+                alert: "Removed from favorites."
   end
 end
