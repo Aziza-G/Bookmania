@@ -100,7 +100,8 @@
           rails_blob_path(@book.book_file, disposition: "attachment"),
           class: "inline-block bg-[#00509D] text-white px-4 py-2 rounded-lg hover:bg-[#11296B]" %>
   <% end %>
-
+  
+  <!--FAVORTIE SECTION-->
   <div class="mt-3">
     <% favorite = Current.user&.favorites&.find_by(book: @book) %>
 
@@ -154,10 +155,11 @@
       </p>
     </span>
 
+    <!--User Rating-->
     <p>
       <strong>Rating:</strong>
 
-      <span style="color: gold; font-size: 24px;">
+      <span class="text-yellow-400 text-2xl">
         <% rating = review.rating.to_i %>
         <%= "★" * rating %>
         <%= "☆" * (5 - rating) %>
@@ -192,9 +194,12 @@
 <% end %>
 </div>
 
+
 <!--Writing review section-->
 <div class="bg-white rounded-2xl shadow-lg p-8 mt-10">
 <h3 class="text-3xl font-bold text-[#11296B] mb-4">Leave a Review</h3>
+
+<%= form_with(model: [@book, @review || Review.new], local: true) do |form| %>
 
   <% if @review&.errors&.any? %>
   <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -210,38 +215,35 @@
     </ul>
   </div>
 <% end %>
-
-
-<%= form_with(model: [@book, Review.new], url: book_reviews_path(@book), local: true) do |form| %>
-    
+  
   
 
-  <p>Note: Rating increases from left to right</p>
-  <%# RATING SECTION %>
-  <%= form.label :rating, "Rating", class: "block font-semibold mb-2" %>
+<!--Enter rating section-->
 
-  <p class="text-sm text-gray-600 mb-2">
-    Click a star to rate from 1 to 5.
-  </p>
+<div class="mb-6">
+  <%= form.label :rating, "Rating", class: "block font-semibold mb-3" %>
 
-  <div class="flex items-center space-x-5">
+  <div id="star-rating" class="flex gap-1">
     <% (1..5).each do |star| %>
-    
+
       <%= form.radio_button :rating, star,
             id: "review_rating_#{star}",
-            style: "display: none;" %>
+            class: "hidden star-input" %>
 
-      <!-- Visible clickable star -->
-      
-      <%= label_tag "review_rating_#{star}", "★",
-            class: "text-4xl cursor-pointer select-none text-yellow-400 hover:scale-110 hover:text-yellow-100 transition" %>
+      <label
+        for="review_rating_<%= star %>"
+        data-value="<%= star %>"
+        class="star text-4xl cursor-pointer text-gray-300 transition hover:scale-110">
+        ★
+      </label>
+
     <% end %>
-    
   </div>
-    <p class="text-sm text-gray-500 mt-1 mb-5"> 1 = Poor, 5 = Excellent</p>
 
-  
-
+  <p class="text-sm text-gray-500 mt-2">
+    1 = Poor, 5 = Excellent
+  </p>
+</div>
 
     <!-- Review Content -->
   <div class="mb-6">
@@ -254,7 +256,8 @@
           class: "bg-[#11296B] hover:bg-[#FFD500] text-[#FFFFFF] hover:text-[#11296B] px-4 py-2 rounded" %>
   </div>
 
-<% end %>
+  <%end %>
+
   </div>
 
   <div class="flex gap-4 mt-8 flex-wrap">

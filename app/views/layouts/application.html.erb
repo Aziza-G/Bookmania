@@ -38,6 +38,8 @@
       }); 
 
     </script>
+
+    
   <body class="bg-[#F7F4ED]">
     <!-- NAVIGATION BAR-->
 
@@ -100,6 +102,26 @@
         </div>
 
     </nav>
+
+    <script>
+document.addEventListener("turbo:load", () => {
+  document.querySelectorAll(".star").forEach(star => {
+    star.addEventListener("click", () => {
+      const value = parseInt(star.dataset.value);
+
+      document.querySelectorAll(".star").forEach(s => {
+        if (parseInt(s.dataset.value) <= value) {
+          s.classList.remove("text-gray-300");
+          s.classList.add("text-yellow-400");
+        } else {
+          s.classList.remove("text-yellow-400");
+          s.classList.add("text-gray-300");
+        }
+      });
+    });
+  });
+});
+</script>
 
     <main class="max-w-7xl mx-auto px-6 py-8">
       <% if notice %>
