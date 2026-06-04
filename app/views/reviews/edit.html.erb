@@ -4,31 +4,34 @@
 
 <h1 class="text-3xl font-bold text-[#11296B] mb-2">Edit Review</h1>
 
-<p class="text-gray-600">Update your rating and thoughts about this book.</p>
+<p class="text-gray-600 mb-7">Update your rating and thoughts about this book.</p>
 
 <%= form_with(model: [@book, @review]) do |form| %>
 
   <!-- Star Rating -->
   <div class="mb-6">
-  <%= form.label :rating, "Rating",
-        class: "block font-semibold text-[#11296B] mb-2" %>
+  <%= form.label :rating, "Rating", class: "block font-semibold mb-3" %>
 
-  <p class="text-sm text-gray-500 mb-3">
-    Click a star to update your rating.
-  </p>
-
-  <div class="flex gap-2">
+  <div id="star-rating" class="flex gap-1">
     <% (1..5).each do |star| %>
 
       <%= form.radio_button :rating, star,
             id: "edit_review_rating_#{star}",
-            style: "display:none;" %>
+            class: "hidden star-input" %>
 
-      <%= label_tag "edit_review_rating_#{star}", "★",
-            class: "text-4xl cursor-pointer text-yellow-400 hover:scale-110 transition" %>
+      <label
+        for="edit_review_rating_<%= star %>"
+        data-value="<%= star %>"
+        class="star text-4xl cursor-pointer text-gray-300 transition hover:scale-110">
+        ★
+      </label>
 
     <% end %>
   </div>
+
+  <p class="text-sm text-gray-500 mt-2">
+    1 = Poor, 5 = Excellent
+  </p>
 </div>
 
   <!-- Review Content -->

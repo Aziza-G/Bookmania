@@ -105,21 +105,34 @@
 
     <script>
 document.addEventListener("turbo:load", () => {
-  document.querySelectorAll(".star").forEach(star => {
-    star.addEventListener("click", () => {
-      const value = parseInt(star.dataset.value);
+  const stars = document.querySelectorAll(".star");
+  const inputs = document.querySelectorAll(".star-input");
 
-      document.querySelectorAll(".star").forEach(s => {
-        if (parseInt(s.dataset.value) <= value) {
-          s.classList.remove("text-gray-300");
-          s.classList.add("text-yellow-400");
-        } else {
-          s.classList.remove("text-yellow-400");
-          s.classList.add("text-gray-300");
-        }
-      });
+  function updateStars(value) {
+    stars.forEach((star) => {
+      const starValue = parseInt(star.dataset.value);
+
+      if (starValue <= value) {
+        star.classList.remove("text-gray-300");
+        star.classList.add("text-yellow-400");
+      } else {
+        star.classList.remove("text-yellow-400");
+        star.classList.add("text-gray-300");
+      }
+    });
+  }
+
+  inputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      updateStars(parseInt(input.value));
     });
   });
+
+  const checkedInput = document.querySelector(".star-input:checked");
+
+  if (checkedInput) {
+    updateStars(parseInt(checkedInput.value));
+  }
 });
 </script>
 
