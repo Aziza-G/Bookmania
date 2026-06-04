@@ -59,9 +59,6 @@
 
             <% end %>
           </div>
-
-      
-
          
       
           <!--Navigation left-->
@@ -91,9 +88,15 @@
       </div>
 
       <div class = "flex items-center gap-4">
-       <span class="bg-white text-[#11296B] px-4 py-1 rounded-full text-sm font-medium">
-        <%= Current.user.email_address %>
-        </span>
+      <% if Current.user.present? %>
+  <span class="bg-white text-[#11296B] px-4 py-1 rounded-full text-sm font-medium">
+    <%= Current.user.email_address %>
+  </span>
+
+  <%= button_to "Logout", session_path,
+      method: :delete,
+      class: "bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg" %>
+    <% end %>
 
         <%= button_to "Logout", session_path,
         method: :delete,

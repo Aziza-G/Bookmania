@@ -4,11 +4,12 @@ class BooksController < ApplicationController
 
   # GET /books or /books.json
   def index
-    @books = Book.all
+    @books = Book.order(created_at: :desc)
 
 
     if params[:genre].present?
-      @books = @books.where(genre: params[:genre])
+      @books = @books.where("LOWER(genre = ?)",
+      params[:genre])
     end
   end
 
@@ -27,7 +28,7 @@ class BooksController < ApplicationController
 
   # POST /books or /books.json
   def create
-    Rails.logger.debug params.inspect
+    Rails.logger.debug params.inspect if Rails.env.development?
     @book = Book.new(book_params)
     @book.user = Current.user
 
@@ -68,22 +69,21 @@ class BooksController < ApplicationController
 
   private
   def authorize_book_owner
-    return if @book.user.nil?
+    return if @book.user.present? && @book.user == Current.user
 
     unless @book.user == Current.user
-      redirect_to books_path, alert: "You are not authorized to do that."
+      redirect_to books_path, alert: "You are not authorized to do that." and return
     end
   end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_book
-      @book = Book.find(params.expect(:id))
+      @book = Book.find(params.expect[:id])
     end
 
     # Only allow a list of trusted parameters through. note: expect was changed to require
     def book_params
-      params.require(:book).permit ( [
-        :name,
+      params.require(:book).permit ([ :name,
         :author,
         :cost,
         :currency,
@@ -95,6 +95,6 @@ class BooksController < ApplicationController
         :notes,
         :book_file,
        :book_image
-      ])
+    ])
     end
 end
