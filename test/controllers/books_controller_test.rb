@@ -5,6 +5,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     @book = books(:one)
   end
 
+
   test "should get index" do
     get books_url
     assert_response :success
