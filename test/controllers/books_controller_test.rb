@@ -3,6 +3,7 @@ require "test_helper"
 class BooksControllerTest < ActionDispatch::IntegrationTest
   setup do
     @book = books(:one)
+    sign_in_as(users(:one))
   end
 
 
