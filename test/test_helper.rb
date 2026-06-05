@@ -5,7 +5,11 @@ require_relative "test_helpers/session_test_helper"
 
 module ActiveSupport
   class TestCase
+    setup do
+      Current.user = users(:one)
+    end
     # Run tests in parallel with specified workers
+    #
     parallelize(workers: :number_of_processors)
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.

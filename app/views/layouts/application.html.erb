@@ -47,7 +47,7 @@
       <div class = "max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
 
           <!--LEFT-->
-          <div class="flex flex-col">
+          <div class="flex items-center gap-15">
 
           <!--Logo-->
           <div class="text-[#FFD500] font-['Merriweather']">
@@ -74,7 +74,7 @@
         <% elsif controller_name == "sessions" %>
 
         <%= link_to "Sign Up", sign_up_path,
-        class: "border border-white px-4 py-2 rounded hover:bg-white hover:text-[#11296B] transition" %>
+        class: "border border-white px-3 py-1 rounded hover:bg-white hover:text-[#11296B] transition" %>
 
         <% elsif controller_name == "users" %>
 
@@ -134,7 +134,7 @@ document.addEventListener("turbo:load", () => {
 });
 </script>
 
-    <main class="max-w-7xl mx-auto px-6 py-8">
+    <main class="<%= controller_name == 'sessions' || controller_name == 'users' ? 'px-0 py-0' : 'max-w-7xl mx-auto px-6 py-8' %>">
       <% if notice %>
         <div id="flash-message" class="fixed top-6 right-6 z-50 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg transistion-all duration-500">
           <%= notice %>

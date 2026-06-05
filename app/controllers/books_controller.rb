@@ -8,8 +8,8 @@ class BooksController < ApplicationController
 
 
     if params[:genre].present?
-      @books = @books.where("LOWER(genre = ?)",
-      params[:genre])
+      @books = @books.where("LOWER(genre) = ?",
+      params[:genre].downcase)
     end
   end
 
@@ -78,7 +78,7 @@ class BooksController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_book
-      @book = Book.find(params.expect[:id])
+      @book = Book.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through. note: expect was changed to require
